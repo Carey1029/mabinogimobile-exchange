@@ -15,10 +15,27 @@
   <div class="nebula n1"></div>
   <div class="nebula n2"></div>
   <div class="nebula n3"></div>
-  <div class="moon"></div>
   <div class="sky-cloud sc1"></div>
   <div class="sky-cloud sc2"></div>
   <div class="sky-cloud sc3"></div>
+  <svg class="cloud-bank" viewBox="0 0 1200 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="cloudGradBack" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#9AC2EE" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#CFE7FF" stop-opacity="0.6"/>
+      </linearGradient>
+      <linearGradient id="cloudGradFront" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#EFF8FF" stop-opacity="0.92"/>
+        <stop offset="100%" stop-color="#FFFFFF" stop-opacity="1"/>
+      </linearGradient>
+      <filter id="cloudBlur" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3.5"/>
+      </filter>
+    </defs>
+    <path filter="url(#cloudBlur)" d="M0,150 C40,120 70,138 100,120 C130,102 150,128 190,116 C230,104 250,132 300,118 C350,104 370,130 420,120 C470,110 490,136 540,124 C590,112 610,138 660,126 C710,114 730,140 780,128 C830,116 850,142 900,130 C950,118 970,144 1020,132 C1070,120 1090,146 1140,134 C1170,126 1190,140 1200,136 L1200,220 L0,220 Z" fill="url(#cloudGradBack)"/>
+    <path filter="url(#cloudBlur)" d="M0,190 C50,165 85,182 120,162 C155,142 180,172 225,158 C270,144 295,174 345,160 C395,146 415,176 465,164 C515,152 535,180 585,168 C635,156 655,184 705,172 C755,160 775,188 830,176 C885,164 905,190 960,178 C1015,166 1035,192 1090,180 C1130,171 1160,183 1200,178 L1200,220 L0,220 Z" fill="url(#cloudGradFront)"/>
+  </svg>
+  <div class="moon"></div>
   <div class="shooting-star ss1"></div>
   <div class="shooting-star ss2"></div>
   <div class="shooting-star ss3"></div>
