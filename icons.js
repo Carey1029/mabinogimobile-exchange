@@ -110,6 +110,12 @@
 <rect x="14.6" y="13" width="2.8" height="8" rx="1.3" fill="' + STROKE + '"/>\
 <circle cx="16" cy="24" r="1.7" fill="' + STROKE + '"/>\
 </svg>',
+
+    sparkle4: '\
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\
+<path d="M16 1c0 7 2 13.5 6.5 15.5C18 18.5 16 24.5 16 31c0-6.5-2-12.5-6.5-14.5C14 14.5 16 8 16 1z" fill="#fff"/>\
+<path d="M27 12c0 3 1 5.5 3 6.5-2 1-3 3.5-3 6.5 0-3-1-5.5-3-6.5 2-1 3-3.5 3-6.5z" fill="#fff" opacity=".8"/>\
+</svg>',
   };
 
   var CATEGORY_ICON = {
