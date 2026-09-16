@@ -239,7 +239,7 @@
       ? '<span class="flow-star" data-icon="star" title="推薦兌換"></span>'
       : "";
     var qtyLine = recipe.resultQty
-      ? '<span class="meta-dot">·</span><span class="result-qty">每次兌換可得 × ' + recipe.resultQty + "</span>"
+      ? '<span class="nowrap-unit"><span class="meta-dot">·</span> <span class="result-qty">每次兌換可得 × ' + recipe.resultQty + "</span></span>"
       : "";
 
     var needHtml = "";
@@ -261,8 +261,8 @@
       '<span class="flow-node-name ' + txtClass(itemName) + '">' + escapeHtml(itemName) + "</span>" +
       star +
       "</div>" +
-      '<div class="flow-node-meta">向 <span class="npc-name">' + npc + "</span>" +
-      '<span class="region-plain">（' + region + "）</span>兌換" + qtyLine + "</div>" +
+      '<div class="flow-node-meta"><span class="nowrap-unit">向 <span class="npc-name">' + npc + "</span>" +
+      '<span class="region-plain">（' + region + "）</span>兌換</span>" + qtyLine + "</div>" +
       needHtml +
       "</div>"
     );
