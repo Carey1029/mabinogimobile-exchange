@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T15:46:29.520780+00:00",
+  "generatedAt": "2026-09-18T16:39:25.829667+00:00",
   "categoryOrder": [
     "加工品",
     "料理成品",
@@ -89,7 +89,11 @@
     "糖": "NPC物品",
     "繃帶": "加工品",
     "高麗菜": "NPC物品",
-    "恢復藥水": "加工品"
+    "恢復藥水": "加工品",
+    "高級爆擊秘藥": "加工品",
+    "草莓冰飲": "料理成品",
+    "白銅礦石": "一般取得材料",
+    "燈籠鮟鱇": "加工品"
   },
   "items": {
     "生皮": [
@@ -205,6 +209,16 @@
         "resource": {
           "name": "擠著吃的點心",
           "qty": 3
+        }
+      },
+      {
+        "region": "庫漢",
+        "npc": "康納",
+        "recommended": false,
+        "resultQty": 3,
+        "resource": {
+          "name": "燈籠鮟鱇",
+          "qty": 15
         }
       }
     ],
@@ -558,6 +572,16 @@
           "name": "合金鋼錠",
           "qty": 30
         }
+      },
+      {
+        "region": "庫漢",
+        "npc": "阿爾米斯",
+        "recommended": false,
+        "resultQty": 1,
+        "resource": {
+          "name": "特殊鋼錠",
+          "qty": 2
+        }
       }
     ],
     "落葉蛾": [
@@ -640,6 +664,16 @@
         "resultQty": 10,
         "resource": {
           "name": "傷痕花",
+          "qty": 10
+        }
+      },
+      {
+        "region": "庫漢",
+        "npc": "凱亞拉",
+        "recommended": false,
+        "resultQty": 50,
+        "resource": {
+          "name": "聖水",
           "qty": 10
         }
       }
@@ -737,6 +771,30 @@
         "resource": {
           "name": "恢復藥水",
           "qty": 100
+        }
+      }
+    ],
+    "高級爆擊秘藥": [
+      {
+        "region": "庫漢",
+        "npc": "凱亞拉",
+        "recommended": false,
+        "resultQty": 1,
+        "resource": {
+          "name": "草莓冰飲",
+          "qty": 2
+        }
+      }
+    ],
+    "銅礦石": [
+      {
+        "region": "庫漢",
+        "npc": "阿爾米斯",
+        "recommended": false,
+        "resultQty": 10,
+        "resource": {
+          "name": "白銅礦石",
+          "qty": 1
         }
       }
     ]

@@ -109,16 +109,57 @@
       document.body.removeChild(ta);
     }
 
-    // 按讚數：使用免費、免登入的 CountAPI 替代服務（原本的 countapi.xyz 已經停止服務）
-    // 做跨訪客共用計數。若服務無法連線，會退回「僅記錄在這台裝置」的本機計數，避免功能整個壞掉。
-    var LIKE_BASE = "https://countapi.mileshilliard.com/api/v1";
-    var LIKE_KEY = "mabinogi-mobile-exchange-book-carey1029-likes";
+    // 按讚數：用「JSONP」方式呼叫免費計數服務 Abacus，完全繞開瀏覽器的 CORS 限制
+    // （先前用 fetch 呼叫 countapi 系列服務時，若對方沒有正確回應跨網域標頭，
+    //  瀏覽器會直接擋掉回應內容，導致每個人看到的都只是自己裝置的本機備援數字，
+    //  這正是「總數沒有正常累計」的根本原因）。JSONP 用 <script> 標籤載入資料，
+    //  不受 CORS 規則管轄，所以能可靠地讀到「所有訪客共用」的同一個數字。
+    var ABACUS_BASE = "https://abacus.jasoncameron.dev";
+    var LIKE_NAMESPACE = "carey1029.github.io-mabinogimobile-exchange";
+    var LIKE_KEY = "likes";
     var LIKED_FLAG = "mabinogi_liked_v1";
     var LOCAL_FALLBACK_KEY = "mabinogi_local_likes_v1";
     var likeBtn = document.getElementById("like-btn");
     var likeCountEl = document.getElementById("like-count");
     var hasLiked = false;
     try { hasLiked = localStorage.getItem(LIKED_FLAG) === "1"; } catch (e) {}
+
+    function jsonp(url, timeoutMs) {
+      return new Promise(function (resolve, reject) {
+        var cbName = "__abacus_cb_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
+        var script = document.createElement("script");
+        var settled = false;
+        var timer = setTimeout(function () {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          reject(new Error("jsonp timeout"));
+        }, timeoutMs || 6000);
+
+        function cleanup() {
+          clearTimeout(timer);
+          delete window[cbName];
+          if (script.parentNode) script.parentNode.removeChild(script);
+        }
+
+        window[cbName] = function (data) {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          resolve(data);
+        };
+
+        script.onerror = function () {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          reject(new Error("jsonp script load error"));
+        };
+
+        script.src = url + (url.indexOf("?") > -1 ? "&" : "?") + "callback=" + cbName;
+        document.head.appendChild(script);
+      });
+    }
 
     function setLikeUi(count, liked) {
       if (likeCountEl) likeCountEl.textContent = (typeof count === "number" && !isNaN(count)) ? count : "0";
@@ -131,12 +172,7 @@
     }
 
     function fetchLikeCount() {
-      fetch(LIKE_BASE + "/get/" + LIKE_KEY)
-        .then(function (r) {
-          if (r.status === 404) return { value: "0" }; // 尚未有人按過讚，屬正常情況
-          if (!r.ok) return Promise.reject();
-          return r.json();
-        })
+      jsonp(ABACUS_BASE + "/get/" + LIKE_NAMESPACE + "/" + LIKE_KEY)
         .then(function (data) { setLikeUi(parseCount(data), hasLiked); })
         .catch(function () {
           var local = 0;
@@ -154,8 +190,7 @@
           showToast("你已經按過讚囉，謝謝支持！");
           return;
         }
-        fetch(LIKE_BASE + "/hit/" + LIKE_KEY)
-          .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        jsonp(ABACUS_BASE + "/hit/" + LIKE_NAMESPACE + "/" + LIKE_KEY)
           .then(function (data) {
             hasLiked = true;
             try { localStorage.setItem(LIKED_FLAG, "1"); } catch (e) {}
@@ -259,6 +294,53 @@
     return Object.keys(set);
   }
 
+  /**
+   * 同一分類內的排序：先把有「同系列」關係的物品（例如 A 是 B 的兌換材料）
+   * 串在一起、依基礎→進階排列，而不是單純照筆畫排序把系列拆散。
+   * 沒有系列關係的物品，彼此之間仍照筆畫排序。
+   */
+  function seriesAwareSort(list) {
+    var items = state.data.items || {};
+    var listSet = {};
+    list.forEach(function (n) { listSet[n] = true; });
+
+    // childrenMap: name -> 這個分類內，直接以 name 當材料的物品們
+    var childrenMap = {};
+    var hasInCategoryParent = {};
+    list.forEach(function (name) {
+      var recipes = items[name];
+      if (!recipes) return;
+      recipes.forEach(function (r) {
+        var resName = r.resource && r.resource.name;
+        if (resName && listSet[resName]) {
+          childrenMap[resName] = childrenMap[resName] || [];
+          if (childrenMap[resName].indexOf(name) === -1) childrenMap[resName].push(name);
+          hasInCategoryParent[name] = true;
+        }
+      });
+    });
+
+    var sortedList = list.slice().sort(zhSort);
+    Object.keys(childrenMap).forEach(function (k) { childrenMap[k].sort(zhSort); });
+
+    var visited = {};
+    var ordered = [];
+    function visit(name) {
+      if (visited[name]) return;
+      visited[name] = true;
+      ordered.push(name);
+      (childrenMap[name] || []).forEach(visit);
+    }
+    // 先走「根節點」（在這個分類裡沒有上游材料的物品），維持原本筆畫排序的相對順序
+    sortedList.forEach(function (name) {
+      if (!hasInCategoryParent[name]) visit(name);
+    });
+    // 保險：處理理論上不該出現、但避免漏掉的節點（例如純粹的循環關係）
+    sortedList.forEach(visit);
+
+    return ordered;
+  }
+
   function populateSelect() {
     var names = namesForMode();
     var byCategory = {};
@@ -272,7 +354,7 @@
     categoryOrder().forEach(function (cat) {
       var list = byCategory[cat];
       if (!list || !list.length) return;
-      list.sort(zhSort);
+      list = seriesAwareSort(list);
       html += '<optgroup label="【' + escapeHtml(cat) + '】">';
       list.forEach(function (name) {
         html += '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + "</option>";
