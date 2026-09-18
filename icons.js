@@ -116,6 +116,20 @@
 <path d="M16 1c0 7 2 13.5 6.5 15.5C18 18.5 16 24.5 16 31c0-6.5-2-12.5-6.5-14.5C14 14.5 16 8 16 1z" fill="#fff"/>\
 <path d="M27 12c0 3 1 5.5 3 6.5-2 1-3 3.5-3 6.5 0-3-1-5.5-3-6.5 2-1 3-3.5 3-6.5z" fill="#fff" opacity=".8"/>\
 </svg>',
+
+    share: '\
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\
+<circle cx="24" cy="7" r="4.2" fill="#8FE3F5" stroke="' + STROKE + '" stroke-width="2"/>\
+<circle cx="24" cy="25" r="4.2" fill="#8FE3F5" stroke="' + STROKE + '" stroke-width="2"/>\
+<circle cx="8" cy="16" r="4.6" fill="#B9E3FF" stroke="' + STROKE + '" stroke-width="2"/>\
+<path d="M11.8 14 20.5 9M11.8 18 20.5 23" stroke="' + STROKE + '" stroke-width="2.2" stroke-linecap="round"/>\
+</svg>',
+
+    heart: '\
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\
+<path class="heart-fill" opacity="0" d="M16 27c-6-4.4-11-8.6-11-14.2C5 8.6 8 6 11.4 6c2 0 3.8 1 4.6 2.6C16.8 7 18.6 6 20.6 6 24 6 27 8.6 27 12.8 27 18.4 22 22.6 16 27z" fill="#FF6F9C"/>\
+<path d="M16 27c-6-4.4-11-8.6-11-14.2C5 8.6 8 6 11.4 6c2 0 3.8 1 4.6 2.6C16.8 7 18.6 6 20.6 6 24 6 27 8.6 27 12.8 27 18.4 22 22.6 16 27z" fill="none" stroke="' + STROKE + '" stroke-width="2.1" stroke-linejoin="round"/>\
+</svg>',
   };
 
   var CATEGORY_ICON = {

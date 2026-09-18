@@ -15,13 +15,36 @@
   <div class="nebula n1"></div>
   <div class="nebula n2"></div>
   <div class="nebula n3"></div>
+  <div class="aurora a1"></div>
+  <div class="aurora a2"></div>
+  <div class="aurora a3"></div>
   <div class="moon"></div>
   <div class="shooting-star ss1"></div>
   <div class="shooting-star ss2"></div>
   <div class="shooting-star ss3"></div>
+  <svg class="treeline" viewBox="0 0 1200 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path fill="#0A0F24" d="M0,140 L0,90 L30,55 L45,80 L60,40 L78,80 L95,50 L112,90 L130,60 L150,95 L0,140 Z
+      M150,140 L150,70 L175,30 L195,65 L215,20 L235,65 L255,25 L278,70 L300,45 L320,90 L150,140 Z
+      M320,140 L320,85 L345,50 L362,82 L380,42 L398,82 L415,52 L432,90 L452,62 L472,95 L320,140 Z
+      M472,140 L472,60 L500,15 L522,55 L545,10 L568,55 L590,18 L615,60 L640,32 L662,90 L472,140 Z
+      M662,140 L662,88 L685,52 L702,84 L720,44 L738,84 L755,54 L772,90 L792,64 L812,95 L662,140 Z
+      M812,140 L812,58 L840,14 L862,54 L885,8 L908,54 L930,16 L955,58 L978,30 L1000,90 L812,140 Z
+      M1000,140 L1000,86 L1023,50 L1040,82 L1058,42 L1076,82 L1093,52 L1110,90 L1130,62 L1150,95 L1170,70 L1200,100 L1200,140 Z"/>
+  </svg>
 </div>
 
 <div class="page">
+
+  <div class="top-toolbar">
+    <button id="share-btn" class="toolbar-btn" type="button" title="複製分享連結">
+      <span class="toolbar-icon" data-icon="share"></span>
+      <span class="toolbar-label">分享連結</span>
+    </button>
+    <button id="like-btn" class="toolbar-btn" type="button" title="幫這個手冊按個讚">
+      <span class="toolbar-icon" data-icon="heart"></span>
+      <span class="toolbar-label" id="like-count">…</span>
+    </button>
+  </div>
 
   <header class="banner">
     <h1 class="game-title">瑪奇<span class="mobile-badge">mobile</span>物資兌換手冊</h1>
@@ -81,6 +104,8 @@
   </footer>
 
 </div>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
 <script src="icons.js"></script>
 <script src="app.js"></script>

@@ -30,17 +30,21 @@
   (function buildSky() {
     var sky = document.getElementById("sky-deco");
     if (!sky) return;
-    var starCount = 55;
+    var starColors = ["#ffffff", "#ffffff", "#ffffff", "#DCEBFF", "#F2E3FF"];
+    var starCount = 65;
     for (var i = 0; i < starCount; i++) {
       var s = document.createElement("div");
       s.className = "star";
-      var size = (Math.random() * 2.2 + 1).toFixed(1);
+      var size = (Math.random() * 2.3 + 1).toFixed(1);
+      var color = starColors[Math.floor(Math.random() * starColors.length)];
       s.style.width = size + "px";
       s.style.height = size + "px";
+      s.style.background = color;
       s.style.top = (Math.random() * 100).toFixed(1) + "%";
       s.style.left = (Math.random() * 100).toFixed(1) + "%";
       s.style.animationDelay = (Math.random() * 3.2).toFixed(2) + "s";
-      s.style.boxShadow = "0 0 " + (size * 2) + "px rgba(255,255,255,0.9)";
+      s.style.animationDuration = (2.6 + Math.random() * 2).toFixed(2) + "s";
+      s.style.boxShadow = "0 0 " + (size * 2.4) + "px " + color;
       sky.appendChild(s);
     }
     var sparklePositions = [
@@ -55,6 +59,115 @@
       sp.innerHTML = window.MapleIcons ? window.MapleIcons.markup("sparkle4") : "";
       sky.appendChild(sp);
     });
+  })();
+
+  /* ---------------- 頂部工具列：分享連結 / 按讚 ---------------- */
+  (function wireToolbar() {
+    var toast = document.getElementById("toast");
+    var toastTimer = null;
+    function showToast(msg) {
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.hidden = false;
+      requestAnimationFrame(function () { toast.classList.add("is-visible"); });
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        toast.classList.remove("is-visible");
+        setTimeout(function () { toast.hidden = true; }, 250);
+      }, 2200);
+    }
+
+    var shareBtn = document.getElementById("share-btn");
+    if (shareBtn) {
+      shareBtn.addEventListener("click", function () {
+        var url = window.location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(
+            function () { showToast("連結已複製！快分享給朋友吧～"); },
+            function () { fallbackCopy(url); }
+          );
+        } else {
+          fallbackCopy(url);
+        }
+      });
+    }
+
+    function fallbackCopy(text) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand("copy");
+        showToast("連結已複製！快分享給朋友吧～");
+      } catch (e) {
+        showToast("複製失敗，請手動複製網址");
+      }
+      document.body.removeChild(ta);
+    }
+
+    // 按讚數：使用免費、免登入的 CountAPI 做跨訪客共用計數。
+    // 若服務無法連線，會退回「僅記錄在這台裝置」的本機計數，避免功能整個壞掉。
+    var LIKE_NAMESPACE = "mabinogi-mobile-exchange-book";
+    var LIKE_KEY = "likes";
+    var LIKED_FLAG = "mabinogi_liked_v1";
+    var LOCAL_FALLBACK_KEY = "mabinogi_local_likes_v1";
+    var likeBtn = document.getElementById("like-btn");
+    var likeCountEl = document.getElementById("like-count");
+    var hasLiked = false;
+    try { hasLiked = localStorage.getItem(LIKED_FLAG) === "1"; } catch (e) {}
+
+    function setLikeUi(count, liked) {
+      if (likeCountEl) likeCountEl.textContent = (typeof count === "number") ? count : "0";
+      if (likeBtn) likeBtn.classList.toggle("is-liked", !!liked);
+    }
+
+    function fetchLikeCount() {
+      fetch("https://api.countapi.xyz/get/" + LIKE_NAMESPACE + "/" + LIKE_KEY)
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (data) {
+          setLikeUi(data && typeof data.value === "number" ? data.value : 0, hasLiked);
+        })
+        .catch(function () {
+          var local = 0;
+          try { local = parseInt(localStorage.getItem(LOCAL_FALLBACK_KEY) || "0", 10); } catch (e) {}
+          setLikeUi(local, hasLiked);
+        });
+    }
+
+    if (likeBtn) {
+      setLikeUi(undefined, hasLiked);
+      fetchLikeCount();
+
+      likeBtn.addEventListener("click", function () {
+        if (hasLiked) {
+          showToast("你已經按過讚囉，謝謝支持！");
+          return;
+        }
+        fetch("https://api.countapi.xyz/hit/" + LIKE_NAMESPACE + "/" + LIKE_KEY)
+          .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+          .then(function (data) {
+            hasLiked = true;
+            try { localStorage.setItem(LIKED_FLAG, "1"); } catch (e) {}
+            setLikeUi(data && typeof data.value === "number" ? data.value : undefined, true);
+            showToast("感謝支持！❤");
+          })
+          .catch(function () {
+            var local = 0;
+            try {
+              local = parseInt(localStorage.getItem(LOCAL_FALLBACK_KEY) || "0", 10) + 1;
+              localStorage.setItem(LOCAL_FALLBACK_KEY, String(local));
+            } catch (e) {}
+            hasLiked = true;
+            try { localStorage.setItem(LIKED_FLAG, "1"); } catch (e) {}
+            setLikeUi(local, true);
+            showToast("感謝支持！（目前為本機計數）");
+          });
+      });
+    }
   })();
 
   function txtClass(name) {
@@ -235,9 +348,6 @@
   function flowNodeHtml(itemName, recipe, stepIndex) {
     var region = recipe.region ? escapeHtml(recipe.region) : "未知地區";
     var npc = recipe.npc ? escapeHtml(recipe.npc) : "未知NPC";
-    var star = recipe.recommended
-      ? '<span class="flow-star" data-icon="star" title="推薦兌換"></span>'
-      : "";
     var qtyLine = recipe.resultQty
       ? '<span class="nowrap-unit"><span class="meta-dot">·</span> <span class="result-qty">每次兌換可得 × ' + recipe.resultQty + "</span></span>"
       : "";
@@ -259,7 +369,6 @@
       stepBadge(stepIndex) +
       '<span class="flow-node-icon" data-icon="' + categoryIcon(itemName) + '"></span>' +
       '<span class="flow-node-name ' + txtClass(itemName) + '">' + escapeHtml(itemName) + "</span>" +
-      star +
       "</div>" +
       '<div class="flow-node-meta"><span class="nowrap-unit">向 <span class="npc-name">' + npc + "</span>" +
       '<span class="region-plain">（' + region + "）</span>兌換</span>" + qtyLine + "</div>" +
