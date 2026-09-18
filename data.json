@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T16:25:35.544948+00:00",
+  "generatedAt": "2026-09-18T15:37:14.986020+00:00",
   "categoryOrder": [
     "加工品",
     "料理成品",
@@ -81,14 +81,22 @@
     "古樸的包裝紙": "NPC物品",
     "卓越繃帶": "加工品",
     "沙威瑪": "料理成品",
-    "馬鈴薯湯": "料理成品"
+    "馬鈴薯湯": "料理成品",
+    "新芽蘑菇": "一般取得材料",
+    "血紅藥草": "一般取得材料",
+    "擠著吃的點心": "加工品",
+    "鹽": "料理成品",
+    "糖": "料理成品",
+    "繃帶": "加工品",
+    "高麗菜": "料理成品",
+    "恢復藥水": "加工品"
   },
   "items": {
     "生皮": [
       {
         "region": "杜加德走廊",
         "npc": "特蕾西",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 10,
         "resource": {
           "name": "原木",
@@ -100,7 +108,7 @@
       {
         "region": "杜加德走廊",
         "npc": "特蕾西",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 10,
         "resource": {
           "name": "原木",
@@ -110,7 +118,7 @@
       {
         "region": "杜巴頓",
         "npc": "奈麗絲",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 10,
         "resource": {
           "name": "銅礦石",
@@ -134,7 +142,7 @@
       {
         "region": "杜加德走廊",
         "npc": "艾爾文",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 8,
         "resource": {
           "name": "炒蔬菜",
@@ -170,7 +178,7 @@
       {
         "region": "杜巴頓",
         "npc": "瓦爾特",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 12,
         "resource": {
           "name": "特蕾西的原木音樂盒",
@@ -188,13 +196,23 @@
           "name": "真愛魚",
           "qty": 10
         }
+      },
+      {
+        "region": "狩獵場、副本",
+        "npc": "貓商人",
+        "recommended": false,
+        "resultQty": 3,
+        "resource": {
+          "name": "擠著吃的點心",
+          "qty": 3
+        }
       }
     ],
     "絲綢": [
       {
         "region": "杜巴頓",
         "npc": "傑羅姆",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 8,
         "resource": {
           "name": "瑞可塔起司沙拉",
@@ -206,7 +224,7 @@
       {
         "region": "杜巴頓",
         "npc": "傑羅姆",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 4,
         "resource": {
           "name": "奶油醬牛排",
@@ -218,7 +236,7 @@
       {
         "region": "杜巴頓",
         "npc": "潔米",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 8,
         "resource": {
           "name": "蘋果舒芙蕾",
@@ -230,7 +248,7 @@
       {
         "region": "杜巴頓",
         "npc": "潔米",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 4,
         "resource": {
           "name": "蘋果鮮奶油蛋糕",
@@ -242,7 +260,7 @@
       {
         "region": "杜巴頓",
         "npc": "卡利克斯",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 10,
         "resource": {
           "name": "格麗娜的蘋果奶茶",
@@ -290,7 +308,7 @@
       {
         "region": "杜巴頓",
         "npc": "奈麗絲",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 2,
         "resource": {
           "name": "合金鋼錠",
@@ -302,7 +320,7 @@
       {
         "region": "杜巴頓",
         "npc": "阿蘭雯",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 1,
         "resource": {
           "name": "馬鈴薯沙拉",
@@ -326,7 +344,7 @@
       {
         "region": "提爾克納",
         "npc": "佛格斯",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 4,
         "resource": {
           "name": "鋼錠",
@@ -468,7 +486,7 @@
       {
         "region": "提爾克納",
         "npc": "雷納德",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 1,
         "resource": {
           "name": "美乃滋炒肉",
@@ -480,7 +498,7 @@
       {
         "region": "提爾克納",
         "npc": "麗莎",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 1,
         "resource": {
           "name": "蘋果汁",
@@ -490,7 +508,7 @@
       {
         "region": "提爾克納",
         "npc": "麗莎",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 1,
         "resource": {
           "name": "煉金術碎屑",
@@ -502,7 +520,7 @@
       {
         "region": "提爾克納",
         "npc": "麗莎",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 1,
         "resource": {
           "name": "高級煉金術再燃燒催化劑",
@@ -514,7 +532,7 @@
       {
         "region": "班克爾",
         "npc": "艾頓",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 10,
         "resource": {
           "name": "鱸魚辣魚湯",
@@ -524,7 +542,7 @@
       {
         "region": "班克爾",
         "npc": "艾琳",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 1,
         "resource": {
           "name": "特殊鋼錠",
@@ -534,7 +552,7 @@
       {
         "region": "班克爾",
         "npc": "艾琳",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 1,
         "resource": {
           "name": "合金鋼錠",
@@ -558,7 +576,7 @@
       {
         "region": "班克爾",
         "npc": "康格",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 6,
         "resource": {
           "name": "豆乳防風草蛋糕",
@@ -582,7 +600,7 @@
       {
         "region": "班克爾",
         "npc": "吉爾摩",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 5,
         "resource": {
           "name": "最高級木材",
@@ -654,7 +672,7 @@
       {
         "region": "萊爾特丘陵",
         "npc": "休馬斯",
-        "recommended": true,
+        "recommended": false,
         "resultQty": 15,
         "resource": {
           "name": "沙威瑪",
@@ -671,6 +689,54 @@
         "resource": {
           "name": "馬鈴薯湯",
           "qty": 3
+        }
+      }
+    ],
+    "新芽蘑菇": [
+      {
+        "region": "狩獵場、副本",
+        "npc": "貓商人",
+        "recommended": false,
+        "resultQty": 3,
+        "resource": {
+          "name": "血紅藥草",
+          "qty": 3
+        }
+      }
+    ],
+    "鹽": [
+      {
+        "region": "狩獵場、副本",
+        "npc": "貓商人",
+        "recommended": false,
+        "resultQty": 2,
+        "resource": {
+          "name": "旅行者點心",
+          "qty": 100
+        }
+      }
+    ],
+    "糖": [
+      {
+        "region": "狩獵場、副本",
+        "npc": "貓商人",
+        "recommended": false,
+        "resultQty": 2,
+        "resource": {
+          "name": "繃帶",
+          "qty": 100
+        }
+      }
+    ],
+    "高麗菜": [
+      {
+        "region": "狩獵場、副本",
+        "npc": "貓商人",
+        "recommended": false,
+        "resultQty": 2,
+        "resource": {
+          "name": "恢復藥水",
+          "qty": 100
         }
       }
     ]
