@@ -109,10 +109,10 @@
       document.body.removeChild(ta);
     }
 
-    // 按讚數：使用免費、免登入的 CountAPI 做跨訪客共用計數。
-    // 若服務無法連線，會退回「僅記錄在這台裝置」的本機計數，避免功能整個壞掉。
-    var LIKE_NAMESPACE = "mabinogi-mobile-exchange-book";
-    var LIKE_KEY = "likes";
+    // 按讚數：使用免費、免登入的 CountAPI 替代服務（原本的 countapi.xyz 已經停止服務）
+    // 做跨訪客共用計數。若服務無法連線，會退回「僅記錄在這台裝置」的本機計數，避免功能整個壞掉。
+    var LIKE_BASE = "https://countapi.mileshilliard.com/api/v1";
+    var LIKE_KEY = "mabinogi-mobile-exchange-book-carey1029-likes";
     var LIKED_FLAG = "mabinogi_liked_v1";
     var LOCAL_FALLBACK_KEY = "mabinogi_local_likes_v1";
     var likeBtn = document.getElementById("like-btn");
@@ -121,16 +121,23 @@
     try { hasLiked = localStorage.getItem(LIKED_FLAG) === "1"; } catch (e) {}
 
     function setLikeUi(count, liked) {
-      if (likeCountEl) likeCountEl.textContent = (typeof count === "number") ? count : "0";
+      if (likeCountEl) likeCountEl.textContent = (typeof count === "number" && !isNaN(count)) ? count : "0";
       if (likeBtn) likeBtn.classList.toggle("is-liked", !!liked);
     }
 
+    function parseCount(data) {
+      var n = data && parseInt(data.value, 10);
+      return (typeof n === "number" && !isNaN(n)) ? n : 0;
+    }
+
     function fetchLikeCount() {
-      fetch("https://api.countapi.xyz/get/" + LIKE_NAMESPACE + "/" + LIKE_KEY)
-        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-        .then(function (data) {
-          setLikeUi(data && typeof data.value === "number" ? data.value : 0, hasLiked);
+      fetch(LIKE_BASE + "/get/" + LIKE_KEY)
+        .then(function (r) {
+          if (r.status === 404) return { value: "0" }; // 尚未有人按過讚，屬正常情況
+          if (!r.ok) return Promise.reject();
+          return r.json();
         })
+        .then(function (data) { setLikeUi(parseCount(data), hasLiked); })
         .catch(function () {
           var local = 0;
           try { local = parseInt(localStorage.getItem(LOCAL_FALLBACK_KEY) || "0", 10); } catch (e) {}
@@ -147,12 +154,12 @@
           showToast("你已經按過讚囉，謝謝支持！");
           return;
         }
-        fetch("https://api.countapi.xyz/hit/" + LIKE_NAMESPACE + "/" + LIKE_KEY)
+        fetch(LIKE_BASE + "/hit/" + LIKE_KEY)
           .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
           .then(function (data) {
             hasLiked = true;
             try { localStorage.setItem(LIKED_FLAG, "1"); } catch (e) {}
-            setLikeUi(data && typeof data.value === "number" ? data.value : undefined, true);
+            setLikeUi(parseCount(data), true);
             showToast("感謝支持！❤");
           })
           .catch(function () {
